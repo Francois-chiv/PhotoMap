@@ -3,6 +3,7 @@ package fr.isep.photomap;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -13,13 +14,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import fr.isep.photomap.databinding.ActivityMapsBinding;
 
@@ -39,6 +43,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.map);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent = new Intent();
+                switch (item.getItemId()){
+                    case R.id.marker:
+                        intent = new Intent(bottomNavigationView.getContext(), MarkerActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.map:
+                        intent = new Intent(bottomNavigationView.getContext(), MapsActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.group:
+                        intent = new Intent(bottomNavigationView.getContext(), GroupActivity.class);
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     /**

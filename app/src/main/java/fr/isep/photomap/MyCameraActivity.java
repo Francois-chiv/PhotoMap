@@ -5,18 +5,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyCameraActivity extends Activity {
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageView;
+    private String base64string;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
     @Override
@@ -52,6 +64,7 @@ public class MyCameraActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
+            base64string = encodeImage(photo);
             imageView.setImageBitmap(photo);
         }
     }
@@ -62,7 +75,40 @@ public class MyCameraActivity extends Activity {
         RatingBar rating = findViewById(R.id.photo_rating);
 
         //TODO:Save the data ...
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> location = new HashMap<>();
+        location.put("photo", base64string);
+        location.put("title", title.getText().toString());
+        location.put("description", description.getText().toString());
+        location.put("rating", rating.getRating());
+
+        db.collection("location")
+                .add(location)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("save_photo", "Photo added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("save_photo", "Error adding document", e);
+                    }
+                });
+
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+    }
+
+    private String encodeImage(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] b = baos.toByteArray();
+
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
 }

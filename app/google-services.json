@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "827328664818",
+    "project_id": "photomap-a4275",
+    "storage_bucket": "photomap-a4275.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827328664818:android:c4cdf34b3ae104e64fec6b",
+        "android_client_info": {
+          "package_name": "com.example.assignmen2chiv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827328664818-13di38sf3i4ti0b6noaok2voiqnkbu12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe7ZU1due8vsCeN0DtREfGgxPsVFeXZn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827328664818-13di38sf3i4ti0b6noaok2voiqnkbu12.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827328664818:android:38a363a67d21125d4fec6b",
+        "android_client_info": {
+          "package_name": "fr.isep.photomap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827328664818-13di38sf3i4ti0b6noaok2voiqnkbu12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe7ZU1due8vsCeN0DtREfGgxPsVFeXZn8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827328664818-13di38sf3i4ti0b6noaok2voiqnkbu12.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

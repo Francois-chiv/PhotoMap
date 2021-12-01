@@ -29,7 +29,7 @@ import fr.isep.photomap.databinding.ActivityMapsBinding;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     protected LocationManager locationManager;
     protected LocationListener locationListener;
-    private GoogleMap mMap;
+    private GoogleMap map;
     private ActivityMapsBinding binding;
     private static final int PERMISSION_REQUEST_LOCATION_CODE = 99;
     private MarkerOptions currentPositionMarker;
@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        map = googleMap;
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -91,25 +91,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_LOCATION_CODE);
         } else {
+            map.setMyLocationEnabled(true);
             currentPositionMarker = new  MarkerOptions();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
+       //     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
         }
 
     }
+
+    //TODO:A supprimer si inutile
     private final LocationListener LocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            mMap.clear();
+            map.clear();
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.addMarker(currentPositionMarker.position(latlng));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latlng));
-
+            map.addMarker(currentPositionMarker.position(latlng));
         }
     };
+
+    //TODO:A supprimer si inutile
+    public void centerCameraToCurrentPosition(View v){
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), 15));
+    }
+
+
 
     public void onClickCamera(View v){
         Intent intent = new Intent(this, MyCameraActivity.class);
         startActivity(intent);
     }
+
 
 }

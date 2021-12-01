@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/drawable/baseline_explore_24.xml" value="0.21770833333333334" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_group.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
@@ -10,6 +11,7 @@
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/fragment_dashboard.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/fragment_home.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/fragment_notifications.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/recycler_view_row_item.xml" value="0.2015625" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20520833333333333" />
       </map>
     </option>

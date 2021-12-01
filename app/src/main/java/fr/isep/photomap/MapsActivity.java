@@ -87,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_LOCATION_CODE);
         } else {
             map.setMyLocationEnabled(true);
+            map.getUiSettings().setMyLocationButtonEnabled(false);
 
             LocationManager locationManager = (LocationManager)
                     getSystemService(Context.LOCATION_SERVICE);
@@ -98,8 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentPositionMarker = new MarkerOptions();
             currentPositionMarker.position(latlng);
 
-            //Permet d'afficher un marker à la position actuelle
-            //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
         }
 
     }
@@ -108,9 +108,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final LocationListener LocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            map.clear();
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-            map.addMarker(currentPositionMarker.position(latlng));
+            currentPositionMarker.position(latlng);
         }
     };
 

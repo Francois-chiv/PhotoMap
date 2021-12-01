@@ -1,19 +1,20 @@
 package fr.isep.photomap;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.Intent;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.hardware.Camera;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,16 +22,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import fr.isep.photomap.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-
-    private GoogleMap mMap;
+    protected LocationManager locationManager;
+    protected LocationListener locationListener;
+    private GoogleMap map;
     private ActivityMapsBinding binding;
+    private static final int PERMISSION_REQUEST_LOCATION_CODE = 99;
+    private MarkerOptions currentPositionMarker;
+  //  private int defaultZoom = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Intent intent = new Intent();
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.marker:
                         intent = new Intent(bottomNavigationView.getContext(), MarkerActivity.class);
                         startActivity(intent);
@@ -80,16 +84,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        map = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_LOCATION_CODE);
+        } else {
+            map.setMyLocationEnabled(true);
+
+            LocationManager locationManager = (LocationManager)
+                    getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            Location location = locationManager.getLastKnownLocation(locationManager
+                    .getBestProvider(criteria, false));
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+
+            currentPositionMarker = new MarkerOptions();
+            currentPositionMarker.position(latlng);
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
+        }
+
     }
+
+    //TODO:A supprimer si inutile
+    private final LocationListener LocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            map.clear();
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            map.addMarker(currentPositionMarker.position(latlng));
+        }
+    };
+
+    //TODO:A supprimer si inutile
+    public void centerCameraToCurrentPosition(View v){
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), 15));
+    }
+
+
 
     public void onClickCamera(View v){
         Intent intent = new Intent(this, MyCameraActivity.class);
+        map.getMyLocation();
+        intent.putExtra("lat", "" + currentPositionMarker.getPosition().latitude);
+        intent.putExtra("lng", "" + currentPositionMarker.getPosition().longitude);
         startActivity(intent);
     }
+
+
 }

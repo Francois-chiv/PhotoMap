@@ -29,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private static final int PERMISSION_REQUEST_LOCATION_CODE = 99;
     private MarkerOptions currentPositionMarker;
-  //  private int defaultZoom = 15;
+    private int defaultZoom = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_LOCATION_CODE);
         } else {
@@ -99,7 +98,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentPositionMarker = new MarkerOptions();
             currentPositionMarker.position(latlng);
 
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
+            //Permet d'afficher un marker à la position actuelle
+            //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
         }
 
     }
@@ -116,12 +116,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //TODO:A supprimer si inutile
     public void centerCameraToCurrentPosition(View v){
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), defaultZoom));
     }
 
     public void onClickCamera(View v){
         Intent intent = new Intent(this, MyCameraActivity.class);
-        map.getMyLocation();
         intent.putExtra("lat", "" + currentPositionMarker.getPosition().latitude);
         intent.putExtra("lng", "" + currentPositionMarker.getPosition().longitude);
         startActivity(intent);

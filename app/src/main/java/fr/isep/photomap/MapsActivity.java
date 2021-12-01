@@ -1,9 +1,7 @@
 package fr.isep.photomap;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +11,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.MenuItem;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,7 +20,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import fr.isep.photomap.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -124,8 +119,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), 15));
     }
 
-
-
     public void onClickCamera(View v){
         Intent intent = new Intent(this, MyCameraActivity.class);
         map.getMyLocation();
@@ -133,6 +126,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("lng", "" + currentPositionMarker.getPosition().longitude);
         startActivity(intent);
     }
-
-
 }

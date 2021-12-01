@@ -2,14 +2,30 @@ package fr.isep.photomap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MarkerActivity extends AppCompatActivity {
+
+    private List<Map<String, Object>> locations = new ArrayList<Map<String,Object>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +55,42 @@ public class MarkerActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("location")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Log.d("Data read", document.getId() + " => " + document.getData());
+                                locations.add(document.getData());
+                                Log.d("Data read", document.getId() + " => " + document.getData().get("title"));
+                                Log.d("Data read", document.getId() + " => " + document.getData().get("description"));
+                                Log.d("Data read", document.getId() + " => " + document.getData().get("rating"));
+                            }
+                            //createTextViews();
+                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+                            // set a LinearLayoutManager with default vertical orientation
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            //  call the constructor of CustomAdapter to send the reference and data to Adapter
+                            MarkerAdapter markerAdapter = new MarkerAdapter(locations);
+                            recyclerView.setAdapter(markerAdapter); // set the Adapter to RecyclerView
+                        } else {
+                            Log.w("Data read error", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
     }
+
+    /*private void createTextViews(){
+        LinearLayout layout = findViewById(R.id.layout);
+        for (int i = 0; i < locations.size() ; i++){
+            TextView textView = new TextView(this);
+            textView.setText(locations.get(i).get("title").toString());
+            layout.addView(textView);
+        }
+    }*/
 }

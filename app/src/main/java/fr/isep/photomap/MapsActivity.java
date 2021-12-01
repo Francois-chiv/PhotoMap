@@ -2,24 +2,39 @@ package fr.isep.photomap;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.MenuItem;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import fr.isep.photomap.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -100,8 +115,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentPositionMarker.position(latlng);
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
-        }
 
+            this.displayMakerOnMap();
+        }
     }
 
     //TODO:A supprimer si inutile
@@ -114,14 +130,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     };
 
     //TODO:A supprimer si inutile
-    public void centerCameraToCurrentPosition(View v){
+    public void centerCameraToCurrentPosition(View v) {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), defaultZoom));
     }
 
-    public void onClickCamera(View v){
+    public void onClickCamera(View v) {
         Intent intent = new Intent(this, MyCameraActivity.class);
         intent.putExtra("lat", "" + currentPositionMarker.getPosition().latitude);
         intent.putExtra("lng", "" + currentPositionMarker.getPosition().longitude);
         startActivity(intent);
+    }
+
+    public void displayMakerOnMap() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("location")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                GeoPoint position = document.getGeoPoint("position");
+                                double lat = position.getLatitude();
+                                double lng = position.getLongitude();
+                                LatLng latLng = new LatLng(lat, lng);
+                                map.addMarker(new MarkerOptions().position(latLng).title(document.getString("title")).snippet(document.getString("description")).icon(decodeImage(document.getString("photo"))));
+                            }
+                        } else {
+                            Log.w("Data read error", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private BitmapDescriptor decodeImage(String encodedImage){
+        int height = 100;
+        int width = 100;
+        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        Bitmap smallBitmap = Bitmap.createScaledBitmap(decodedByte, width, height, false);
+        return BitmapDescriptorFactory.fromBitmap(smallBitmap);
     }
 }

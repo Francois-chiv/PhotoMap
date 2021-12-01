@@ -108,7 +108,6 @@ public class MyCameraActivity extends Activity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] b = baos.toByteArray();
-
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
 }

@@ -70,7 +70,6 @@ public class MarkerActivity extends AppCompatActivity {
                                 Log.d("Data read", document.getId() + " => " + document.getData().get("description"));
                                 Log.d("Data read", document.getId() + " => " + document.getData().get("rating"));
                             }
-                            //createTextViews();
                             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                             // set a LinearLayoutManager with default vertical orientation
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -85,7 +84,7 @@ public class MarkerActivity extends AppCompatActivity {
                 });
     }
 
-    /*private void createTextViews(){
+    /*private void placeMarkers(){
         LinearLayout layout = findViewById(R.id.layout);
         for (int i = 0; i < locations.size() ; i++){
             TextView textView = new TextView(this);

@@ -39,6 +39,13 @@
             android:layout_height="wrap_content"
             android:isIndicator="true"/>
 
+        <Button
+            android:id="@+id/view_on_map_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickShowOnMap"
+            android:text="View on map"/>
+
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -9,7 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MarkerInfoActivity extends AppCompatActivity {
+
+    private String latitude;
+    private String longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +51,13 @@ public class MarkerInfoActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
+
         String title = intent.getStringExtra("Title");
         String description = intent.getStringExtra("Description");
         float rating = Float.parseFloat(intent.getStringExtra("Rating"));
         String photo = intent.getStringExtra("Photo");
+        latitude = intent.getStringExtra("Latitude");
+        longitude = intent.getStringExtra("Longitude");
 
         TextView titleTextView = findViewById(R.id.marker_title);
         TextView descriptionTextView = findViewById(R.id.marker_description);
@@ -68,5 +74,12 @@ public class MarkerInfoActivity extends AppCompatActivity {
         byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
+    }
+
+    public void onClickShowOnMap(View v){
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Latitude", latitude);
+        intent.putExtra("Longitude", longitude);
+        this.startActivity(intent);
     }
 }

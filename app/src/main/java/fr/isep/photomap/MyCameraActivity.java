@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -15,12 +14,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.firebase.firestore.GeoPoint;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +28,17 @@ public class MyCameraActivity extends Activity {
     private ImageView imageView;
     private String base64string;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private String lng;
+    private String lat;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_layout);
+
+        Intent intent = getIntent();
+        lng = intent.getStringExtra("lng");
+        lat = intent.getStringExtra("lat");
 
         this.imageView = (ImageView) this.findViewById(R.id.photo);
 
@@ -78,11 +82,14 @@ public class MyCameraActivity extends Activity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        GeoPoint latlng = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lng));
+
         Map<String, Object> location = new HashMap<>();
         location.put("photo", base64string);
         location.put("title", title.getText().toString());
         location.put("description", description.getText().toString());
         location.put("rating", rating.getRating());
+        location.put("position", latlng);
 
         db.collection("location")
                 .add(location)

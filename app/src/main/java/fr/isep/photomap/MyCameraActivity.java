@@ -3,6 +3,7 @@ package fr.isep.photomap;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -30,9 +31,15 @@ public class MyCameraActivity extends Activity {
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private String lng;
     private String lat;
+    private String username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences=getSharedPreferences("PhotoMapSession", MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        username = preferences.getString("username","");
+        editor.commit();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_layout);
 
@@ -90,6 +97,8 @@ public class MyCameraActivity extends Activity {
         location.put("description", description.getText().toString());
         location.put("rating", rating.getRating());
         location.put("position", latlng);
+        location.put("username", username);
+
 
         db.collection("location")
                 .add(location)

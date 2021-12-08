@@ -27,7 +27,7 @@
             android:exported="false" />
         <activity
             android:name=".MarkerActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,6 +42,16 @@
 
         <activity
             android:name=".MapsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".MyCameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".ConnectionActivity"
             android:exported="true"
             android:label="@string/title_activity_maps">
             <intent-filter>
@@ -50,9 +60,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MyCameraActivity"
-            android:exported="true"></activity>
     </application>
 
 </manifest>

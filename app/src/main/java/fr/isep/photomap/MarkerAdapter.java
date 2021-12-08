@@ -77,6 +77,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
         String photo = (String) photos.get(position);
         String latitude = "" + ((GeoPoint) geopoints.get(position)).getLatitude();
         String longitude = "" + ((GeoPoint) geopoints.get(position)).getLongitude();
+
         viewHolder.getTextView().setText(title + " " + description + " " + rating);
         viewHolder.getImageView().setImageBitmap(decodeImage(photo));
         viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
@@ -87,8 +88,8 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
                 intent.putExtra("Description", description);
                 intent.putExtra("Rating", rating);
                 intent.putExtra("Photo", photo);
-                intent.putExtra("Latitude", "" + latitude);
-                intent.putExtra("Longitude", "" + longitude);
+                intent.putExtra("Latitude", latitude);
+                intent.putExtra("Longitude", longitude);
                 v.getContext().startActivity(intent);
             }
         });

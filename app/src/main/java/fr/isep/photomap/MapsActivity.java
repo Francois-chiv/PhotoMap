@@ -83,6 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -116,7 +117,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationListener);
 
-            this.displayMakerOnMap();
+            this.displayMarkersOnMap();
+            Intent intent = getIntent();
+            if (intent.hasExtra("Latitude") && intent.hasExtra("Longitude")) {
+                Log.d("Centering Camera", "Calling center camera function");
+                LatLng latLng = new LatLng(Double.parseDouble(intent.getStringExtra("Latitude")), Double.parseDouble(intent.getStringExtra("Longitude")));
+                centerCamera(latLng);
+            }
         }
     }
 
@@ -129,9 +136,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     };
 
-    //TODO:A supprimer si inutile
     public void centerCameraToCurrentPosition(View v) {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPositionMarker.getPosition(), defaultZoom));
+    }
+
+    public void centerCamera(LatLng latLng) {
+        Log.d("Centering Camera", "Trying to center camera");
+        Log.d("Centering Camera", latLng.toString());
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, defaultZoom));
     }
 
     public void onClickCamera(View v) {
@@ -141,7 +153,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
-    public void displayMakerOnMap() {
+    public void displayMarkersOnMap() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("location")
                 .get()

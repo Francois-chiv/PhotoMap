@@ -66,9 +66,6 @@ public class MarkerActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Log.d("Data read", document.getId() + " => " + document.getData());
                                 locations.add(document.getData());
-                                Log.d("Data read", document.getId() + " => " + document.getData().get("title"));
-                                Log.d("Data read", document.getId() + " => " + document.getData().get("description"));
-                                Log.d("Data read", document.getId() + " => " + document.getData().get("rating"));
                             }
                             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                             // set a LinearLayoutManager with default vertical orientation

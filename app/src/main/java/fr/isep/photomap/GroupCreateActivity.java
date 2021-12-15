@@ -74,8 +74,8 @@ public class GroupCreateActivity extends AppCompatActivity {
     }
 
     public void createGroup(View v){
-        EditText nameEditText = findViewById(R.id.group_name);
-        EditText descriptionEditText = findViewById(R.id.group_description);
+        EditText nameEditText = findViewById(R.id.group_name_input);
+        EditText descriptionEditText = findViewById(R.id.group_description_input);
         MultichoiceSpinner multichoiceSpinner = (MultichoiceSpinner) findViewById(R.id.multichoice_spinner);
 
         Log.d("Name", nameEditText.getText().toString());

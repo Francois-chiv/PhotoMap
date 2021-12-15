@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoMap">
         <activity
+            android:name=".GroupInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".GroupCreateActivity"
             android:exported="false" />
         <activity

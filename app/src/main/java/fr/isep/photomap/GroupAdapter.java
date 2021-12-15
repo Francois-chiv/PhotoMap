@@ -44,6 +44,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             descriptions.add(dataSet.get(i).get("description"));
             members.add(dataSet.get(i).get("members"));
         }
+        Log.d("Members", members.size() + "");
     }
 
     @Override
@@ -57,14 +58,23 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(GroupAdapter.ViewHolder viewHolder, final int position) {
         String name = (String) names.get(position);
         String description = (String) descriptions.get(position);
-        List<String> members = (List<String>) this.members.get(position);
+        String membersString = "";
+        List<String> itemMembers = (List<String>) this.members.get(position);
+        for (int i = 0 ; i < itemMembers.size() ; i ++){
+            membersString += itemMembers.get(i) + "\n";
+        }
 
         viewHolder.getTextView().setText(name + " " + description);
+        String finalMembersString = membersString;
         viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MapsActivity.class);
+                Intent intent = new Intent(v.getContext(), GroupInfoActivity.class);
+                intent.putExtra("Name", name);
+                intent.putExtra("Description", description);
+                intent.putExtra("Members", finalMembersString);
                 v.getContext().startActivity(intent);
+
             }
         });
     }

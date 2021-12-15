@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,9 +27,15 @@ import java.util.Map;
 public class MarkerActivity extends AppCompatActivity {
 
     private List<Map<String, Object>> locations = new ArrayList<Map<String,Object>>();
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences=getSharedPreferences("PhotoMapSession", MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        username = preferences.getString("username","");
+        editor.commit();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marker);
 
@@ -58,6 +65,7 @@ public class MarkerActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("location")
+                .whereEqualTo("username", username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

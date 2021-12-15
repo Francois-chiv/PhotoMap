@@ -52,9 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences=getSharedPreferences("PhotoMapSession", MODE_PRIVATE);
-        SharedPreferences.Editor editor=preferences.edit();
         username = preferences.getString("username","");
-        editor.commit();
 
         super.onCreate(savedInstanceState);
 

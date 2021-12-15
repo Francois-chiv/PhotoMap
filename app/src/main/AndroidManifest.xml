@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PhotoMap">
         <activity
+            android:name=".GroupCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".MarkerInfoActivity"
             android:exported="false" />
         <activity
@@ -42,14 +45,13 @@
 
         <activity
             android:name=".MapsActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MyCameraActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".ConnectionActivity"
             android:exported="true"

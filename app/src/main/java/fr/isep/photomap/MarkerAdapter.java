@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.GeoPoint;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
     private List descriptions = new ArrayList<String>();
     private List ratings = new ArrayList<Float>();
     private List photos = new ArrayList<String>();
+    private List geopoints = new ArrayList<GeoPoint>();
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -49,11 +52,13 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
             descriptions.add(dataSet.get(i).get("description"));
             ratings.add(dataSet.get(i).get("rating"));
             photos.add(dataSet.get(i).get("photo"));
+            geopoints.add(dataSet.get(i).get("position"));
         }
         Log.d("Titles size", "" + titles.size());
         Log.d("Descriptions size", "" + descriptions.size());
         Log.d("Ratings size", "" + ratings.size());
         Log.d("Photos size", "" + photos.size());
+        Log.d("Geopoints size", "" + geopoints.size());
     }
 
     @Override
@@ -69,6 +74,9 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
         String description = (String) descriptions.get(position);
         String rating = "" + ratings.get(position);
         String photo = (String) photos.get(position);
+        String latitude = "" + ((GeoPoint) geopoints.get(position)).getLatitude();
+        String longitude = "" + ((GeoPoint) geopoints.get(position)).getLongitude();
+
         viewHolder.getTextView().setText(title + " " + description + " " + rating);
         viewHolder.getImageView().setImageBitmap(decodeImage(photo));
         viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
@@ -79,6 +87,8 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
                 intent.putExtra("Description", description);
                 intent.putExtra("Rating", rating);
                 intent.putExtra("Photo", photo);
+                intent.putExtra("Latitude", latitude);
+                intent.putExtra("Longitude", longitude);
                 v.getContext().startActivity(intent);
             }
         });

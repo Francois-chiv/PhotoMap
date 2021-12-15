@@ -72,16 +72,13 @@ public class MarkerActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                //Log.d("Data read", document.getId() + " => " + document.getData());
                                 locations.add(document.getData());
                             }
                             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                            // set a LinearLayoutManager with default vertical orientation
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                             recyclerView.setLayoutManager(linearLayoutManager);
-                            //  call the constructor of CustomAdapter to send the reference and data to Adapter
                             MarkerAdapter markerAdapter = new MarkerAdapter(locations);
-                            recyclerView.setAdapter(markerAdapter); // set the Adapter to RecyclerView
+                            recyclerView.setAdapter(markerAdapter);
                         } else {
                             Log.w("Data read error", "Error getting documents.", task.getException());
                         }

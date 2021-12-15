@@ -47,13 +47,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int PERMISSION_REQUEST_LOCATION_CODE = 99;
     private MarkerOptions currentPositionMarker;
     private int defaultZoom = 15;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Pour récuperer l'username
         SharedPreferences preferences=getSharedPreferences("PhotoMapSession", MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
-        String username = preferences.getString("username","");
+        username = preferences.getString("username","");
         editor.commit();
 
         super.onCreate(savedInstanceState);
@@ -164,6 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void displayMarkersOnMap() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("location")
+                .whereEqualTo("username", username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

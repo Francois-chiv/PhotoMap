@@ -3,7 +3,6 @@ package fr.isep.photomap;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Debug;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,7 +64,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.recycler_view_row_item, viewGroup, false);
+                .inflate(R.layout.marker_recycler_view_row_item, viewGroup, false);
         return new ViewHolder(view);
     }
 

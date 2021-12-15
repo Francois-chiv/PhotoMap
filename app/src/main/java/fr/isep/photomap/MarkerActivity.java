@@ -89,12 +89,4 @@ public class MarkerActivity extends AppCompatActivity {
                 });
     }
 
-    /*private void placeMarkers(){
-        LinearLayout layout = findViewById(R.id.layout);
-        for (int i = 0; i < locations.size() ; i++){
-            TextView textView = new TextView(this);
-            textView.setText(locations.get(i).get("title").toString());
-            layout.addView(textView);
-        }
-    }*/
 }

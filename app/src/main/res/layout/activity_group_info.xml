@@ -17,21 +17,51 @@
         android:gravity="center">
 
         <TextView
-            android:id="@+id/group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group name"/>
+            android:layout_marginBottom="3sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Name"/>
+
+        <TextView
+            android:id="@+id/group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Description"/>
 
         <TextView
             android:id="@+id/group_description"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group description"/>
+            android:layout_marginBottom="3sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Members"/>
 
         <TextView
             android:id="@+id/group_members"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Photos"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

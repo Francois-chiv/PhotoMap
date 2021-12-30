@@ -28,6 +28,7 @@ public class ConnectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connection);
+        retrieveUsers();
     }
 
     public void connectionButton(View v){
@@ -45,7 +46,7 @@ public class ConnectionActivity extends AppCompatActivity {
         }
     }
 
-    protected boolean isDuplicate(String username){
+    protected void retrieveUsers(){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("user")
@@ -60,7 +61,9 @@ public class ConnectionActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
 
+    protected boolean isDuplicate(String username){
         return usernames.contains(username);
     }
 

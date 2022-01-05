@@ -85,7 +85,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                             recyclerView.setLayoutManager(linearLayoutManager);
-                            MarkerAdapter markerAdapter = new MarkerAdapter(locations);
+                            MarkerGroupAdapter markerAdapter = new MarkerGroupAdapter(locations, membersArray);
                             recyclerView.setAdapter(markerAdapter);
                         } else {
                             Log.w("Data read error", "Error getting documents.", task.getException());

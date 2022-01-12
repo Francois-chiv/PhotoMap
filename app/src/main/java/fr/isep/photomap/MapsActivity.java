@@ -37,6 +37,8 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
+
 import fr.isep.photomap.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -125,7 +127,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             this.displayMarkersOnMap();
             Intent intent = getIntent();
-            if (intent.hasExtra("Latitude") && intent.hasExtra("Longitude")) {
+
+            if (intent.hasExtra("Source")) {
                 Log.d("Centering Camera", "Calling center camera function");
                 LatLng latLng = new LatLng(Double.parseDouble(intent.getStringExtra("Latitude")), Double.parseDouble(intent.getStringExtra("Longitude")));
                 centerCamera(latLng);
@@ -161,25 +164,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void displayMarkersOnMap() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("location")
-                .whereEqualTo("username", username)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                GeoPoint position = document.getGeoPoint("position");
-                                double lat = position.getLatitude();
-                                double lng = position.getLongitude();
-                                LatLng latLng = new LatLng(lat, lng);
-                                map.addMarker(new MarkerOptions().position(latLng).title(document.getString("title")).snippet(document.getString("description")).icon(decodeImage(document.getString("photo"))));
+        Intent intent = getIntent();
+        if (intent.hasExtra("Source") && intent.getStringExtra("Source").equals("Group Marker")) {
+            String[] members = intent.getStringArrayExtra("Members");
+            db.collection("location")
+                    .whereIn("username", Arrays.asList(members))
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    GeoPoint position = document.getGeoPoint("position");
+                                    double lat = position.getLatitude();
+                                    double lng = position.getLongitude();
+                                    LatLng latLng = new LatLng(lat, lng);
+                                    map.addMarker(new MarkerOptions().position(latLng).title(document.getString("title")).snippet(document.getString("description")).icon(decodeImage(document.getString("photo"))));
+                                }
+                            } else {
+                                Log.w("Data read error", "Error getting documents.", task.getException());
                             }
-                        } else {
-                            Log.w("Data read error", "Error getting documents.", task.getException());
                         }
-                    }
-                });
+                    });
+        } else {
+            db.collection("location")
+                    .whereEqualTo("username", username)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    GeoPoint position = document.getGeoPoint("position");
+                                    double lat = position.getLatitude();
+                                    double lng = position.getLongitude();
+                                    LatLng latLng = new LatLng(lat, lng);
+                                    map.addMarker(new MarkerOptions().position(latLng).title(document.getString("title")).snippet(document.getString("description")).icon(decodeImage(document.getString("photo"))));
+                                }
+                            } else {
+                                Log.w("Data read error", "Error getting documents.", task.getException());
+                            }
+                        }
+                    });
+        }
     }
 
     private BitmapDescriptor decodeImage(String encodedImage){

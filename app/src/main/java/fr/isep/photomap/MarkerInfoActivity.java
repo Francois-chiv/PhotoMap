@@ -21,6 +21,8 @@ public class MarkerInfoActivity extends AppCompatActivity {
 
     private String latitude;
     private String longitude;
+    private String source = "Marker";
+    private String[] members;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +57,15 @@ public class MarkerInfoActivity extends AppCompatActivity {
 
         String title = intent.getStringExtra("Title");
         String description = intent.getStringExtra("Description");
-        float rating = Float.parseFloat(intent.getStringExtra("Rating"));
+        float rating = intent.getFloatExtra("Rating", 0);
         String photo = intent.getStringExtra("Photo");
         latitude = intent.getStringExtra("Latitude");
         longitude = intent.getStringExtra("Longitude");
+
+        if (intent.hasExtra("Source") && intent.getStringExtra("Source").equals("Group Marker")){
+            source = intent.getStringExtra("Source");
+            members = intent.getStringArrayExtra("Members");
+        }
 
         TextView titleTextView = findViewById(R.id.marker_title);
         TextView descriptionTextView = findViewById(R.id.marker_description);
@@ -79,8 +86,16 @@ public class MarkerInfoActivity extends AppCompatActivity {
 
     public void onClickShowOnMap(View v){
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra("Latitude", latitude);
-        intent.putExtra("Longitude", longitude);
+        if (source.equals("Group Marker")){
+            intent.putExtra("Source", "Group Marker");
+            intent.putExtra("Latitude", latitude);
+            intent.putExtra("Longitude", longitude);
+            intent.putExtra("Members", members);
+        } else {
+            intent.putExtra("Source", "Marker");
+            intent.putExtra("Latitude", latitude);
+            intent.putExtra("Longitude", longitude);
+        }
         this.startActivity(intent);
     }
 }

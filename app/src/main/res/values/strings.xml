@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">PhotoMap</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <string name="marker">Lieux</string>
-    <string name="map">Carte</string>
-    <string name="group">Groupes</string>
+    <string name="marker">Locations</string>
+    <string name="map">Map</string>
+    <string name="group">Groups</string>
 
 </resources>

@@ -58,6 +58,10 @@ public class MarkerActivity extends AppCompatActivity {
                         intent = new Intent(bottomNavigationView.getContext(), GroupActivity.class);
                         startActivity(intent);
                         return true;
+                    case R.id.log_out:
+                        intent = new Intent(bottomNavigationView.getContext(), ConnectionActivity.class);
+                        startActivity(intent);
+                        return true;
                 }
                 return false;
             }

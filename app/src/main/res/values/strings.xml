@@ -4,5 +4,5 @@
     <string name="marker">Locations</string>
     <string name="map">Map</string>
     <string name="group">Groups</string>
-
+    <string name="log_out">Log out</string>
 </resources>

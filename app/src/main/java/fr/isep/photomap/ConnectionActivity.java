@@ -28,7 +28,6 @@ import java.util.List;
 
 
 public class ConnectionActivity extends AppCompatActivity {
-    List<String> usernames = new ArrayList<>();
     Boolean userExist = true;
 
     @Override
@@ -42,7 +41,7 @@ public class ConnectionActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.password);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Task<QuerySnapshot> query = db.collection("user")
+        db.collection("user")
                 .whereEqualTo("username", username.getText().toString())
                 .whereEqualTo("password", md5(password.getText().toString()))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -50,41 +49,20 @@ public class ConnectionActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             userExist = task.getResult().isEmpty();
-                        }
-                    }
-                });
-
-        if (userExist) {
-            username.setError("Invalid identifier!");
-        } else {
-            if (isDuplicate(username.getText().toString())) {
-                SharedPreferences preferences = getApplicationContext().getSharedPreferences("PhotoMapSession", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("username", username.getText().toString());
-                editor.commit();
-                Intent intent = new Intent(this, MapsActivity.class);
-                startActivity(intent);
-            }
-        }
-    }
-
-    protected boolean isDuplicate(String username) {
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("user")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                usernames.add(document.getString("username").toString());
+                            if (userExist) {
+                                username.setError("Invalid identifier!");
+                            } else {
+                                SharedPreferences preferences = getApplicationContext().getSharedPreferences("PhotoMapSession", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("username", username.getText().toString());
+                                editor.commit();
+                                Intent intent = new Intent(v.getContext(), MapsActivity.class);
+                                startActivity(intent);
                             }
                         }
                     }
                 });
 
-        return usernames.contains(username);
     }
 
     public String md5(String s) {

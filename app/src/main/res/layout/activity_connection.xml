@@ -25,6 +25,13 @@
         android:text="Username" />
 
     <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:inputType="textPassword" />
+
+    <EditText
         android:id="@+id/connection_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

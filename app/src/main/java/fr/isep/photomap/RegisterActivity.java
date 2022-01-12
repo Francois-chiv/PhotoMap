@@ -20,10 +20,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    boolean isDuplicate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +36,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void createUser(View v) {
         EditText username = findViewById(R.id.register_username);
+        EditText password = findViewById(R.id.password);
+        EditText password_to_match = findViewById(R.id.password_to_match);
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("username", username.getText().toString());
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        if (password.getText().toString().equals(password_to_match.getText().toString())
+                && !isDuplicate(username.getText().toString())) {
+            Map<String, Object> user = new HashMap<>();
+            user.put("username", username.getText().toString());
+            user.put("password", md5(password.getText().toString()));
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        if (!isDuplicate(username.getText().toString())) {
             db.collection("user")
                     .add(user)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -53,28 +60,44 @@ public class RegisterActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
         } else {
-            username.setError("Please check username field again");
+            password_to_match.setError("Password doesn't match");
         }
     }
 
     protected boolean isDuplicate(String username) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final boolean[] isDuplicate = {false};
         db.collection("user")
+                .whereEqualTo("username", username)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.getString("username").equals(username)) {
-                                    isDuplicate[0] = true;
-                                }
-                            }
+                            isDuplicate = task.getResult().isEmpty();
                         }
                     }
                 });
-        return isDuplicate[0];
+
+        return !isDuplicate;
+    }
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public void connectionPageButton(View v) {

@@ -1,57 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MarkerInfoActivity"
-    android:orientation="vertical"
-    android:gravity="bottom">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="-80dp"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/marker_photo"
-            android:layout_width="fill_parent"
-            android:layout_height="335dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/marker_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Marker title"/>
+            android:layout_marginBottom="20dp"
+            android:textSize="20sp"
+            android:text="Marker title" />
+
+        <ImageView
+            android:id="@+id/marker_photo"
+            android:layout_width="fill_parent"
+            android:layout_height="335dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Description"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/marker_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Marker description"/>
+            android:text="Marker description" />
 
         <RatingBar
             android:id="@+id/marker_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:isIndicator="true"/>
-
-        <Button
-            android:id="@+id/view_on_map_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickShowOnMap"
-            android:text="View on map"/>
+            android:isIndicator="true" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/showOnMapButton"
+        android:layout_width="254dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="84dp"
+        android:onClick="onClickShowOnMap"
+        android:src="@drawable/ic_baseline_place_24"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="OnClick" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

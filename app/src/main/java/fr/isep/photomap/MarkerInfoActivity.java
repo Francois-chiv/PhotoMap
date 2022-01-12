@@ -57,7 +57,7 @@ public class MarkerInfoActivity extends AppCompatActivity {
 
         String title = intent.getStringExtra("Title");
         String description = intent.getStringExtra("Description");
-        float rating = Float.parseFloat(intent.getStringExtra("Rating"));
+        float rating = intent.getFloatExtra("Rating", 0);
         String photo = intent.getStringExtra("Photo");
         latitude = intent.getStringExtra("Latitude");
         longitude = intent.getStringExtra("Longitude");

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,17 +29,27 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private final TextView textView;
+        private final TextView textViewTitle;
+        private final TextView textViewDescription;
+        private final RatingBar ratingBar;
         private final ImageView imageView;
 
         public ViewHolder(View view){
             super(view);
-            textView = (TextView) view.findViewById(R.id.text_view);
+            textViewTitle = (TextView) view.findViewById(R.id.text_view_title);
+            textViewDescription = (TextView) view.findViewById(R.id.text_view_description);
+            ratingBar = (RatingBar) view.findViewById(R.id.rating_bar);
             imageView = (ImageView) view.findViewById(R.id.image_view);
         }
 
-        public TextView getTextView(){
-            return textView;
+        public TextView getTextViewTitle(){
+            return textViewTitle;
+        }
+        public TextView getTextViewDescription(){
+            return textViewDescription;
+        }
+        public RatingBar getRatingBar(){
+            return ratingBar;
         }
         public ImageView getImageView(){ return imageView; }
 
@@ -65,14 +76,16 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         String title = (String) titles.get(position);
         String description = (String) descriptions.get(position);
-        String rating = "" + ratings.get(position);
+        float rating = ((Number) ratings.get(position)).floatValue();
         String photo = (String) photos.get(position);
         String latitude = "" + ((GeoPoint) geopoints.get(position)).getLatitude();
         String longitude = "" + ((GeoPoint) geopoints.get(position)).getLongitude();
 
-        viewHolder.getTextView().setText(title + " " + description + " " + rating);
+        viewHolder.getTextViewTitle().setText(title);
+        viewHolder.getTextViewDescription().setText(description);
+        viewHolder.getRatingBar().setRating(rating);
         viewHolder.getImageView().setImageBitmap(decodeImage(photo));
-        viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
+        viewHolder.getTextViewTitle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MarkerInfoActivity.class);

@@ -25,15 +25,20 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     private List members = new ArrayList<List<String>>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private final TextView textView;
+        private final TextView textViewGroupName;
+        private final TextView textViewGroupDescription;
 
         public ViewHolder(View view){
             super(view);
-            textView = (TextView) view.findViewById(R.id.text_view);
+            textViewGroupName = (TextView) view.findViewById(R.id.text_view_group_name);
+            textViewGroupDescription = (TextView) view.findViewById(R.id.text_view_group_description);
         }
 
-        public TextView getTextView(){
-            return textView;
+        public TextView getTextViewGroupName(){
+            return textViewGroupName;
+        }
+        public TextView getTextViewGroupDescription(){
+            return textViewGroupDescription;
         }
 
     }
@@ -64,9 +69,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             membersString += itemMembers.get(i) + "\n";
         }
 
-        viewHolder.getTextView().setText(name + " " + description);
+        viewHolder.getTextViewGroupName().setText(name);
+        viewHolder.getTextViewGroupDescription().setText(description);
         String finalMembersString = membersString;
-        viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
+        viewHolder.getTextViewGroupName().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), GroupInfoActivity.class);

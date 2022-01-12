@@ -16,14 +16,6 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="Your photos"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

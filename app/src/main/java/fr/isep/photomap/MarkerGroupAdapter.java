@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder> {
+public class MarkerGroupAdapter extends RecyclerView.Adapter<MarkerGroupAdapter.ViewHolder> {
     private List titles = new ArrayList<String>();
     private List descriptions = new ArrayList<String>();
     private List ratings = new ArrayList<Float>();
     private List photos = new ArrayList<String>();
     private List geopoints = new ArrayList<GeoPoint>();
+    private List usernames = new ArrayList<String>();
+    private String[] members;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -33,6 +34,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
         private final TextView textViewDescription;
         private final RatingBar ratingBar;
         private final ImageView imageView;
+        private final TextView textViewUsername;
 
         public ViewHolder(View view){
             super(view);
@@ -40,6 +42,7 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
             textViewDescription = (TextView) view.findViewById(R.id.text_view_description);
             ratingBar = (RatingBar) view.findViewById(R.id.rating_bar);
             imageView = (ImageView) view.findViewById(R.id.image_view);
+            textViewUsername = (TextView) view.findViewById(R.id.text_view_username);
         }
 
         public TextView getTextViewTitle(){
@@ -52,17 +55,22 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
             return ratingBar;
         }
         public ImageView getImageView(){ return imageView; }
+        public TextView getTextViewUsername(){
+            return textViewUsername;
+        }
 
     }
 
-    public MarkerAdapter(List<Map<String, Object>> dataSet){
+    public MarkerGroupAdapter(List<Map<String, Object>> dataSet, String[] members){
         for (int i = 0; i < dataSet.size(); i++){
             titles.add(dataSet.get(i).get("title"));
             descriptions.add(dataSet.get(i).get("description"));
             ratings.add(dataSet.get(i).get("rating"));
             photos.add(dataSet.get(i).get("photo"));
             geopoints.add(dataSet.get(i).get("position"));
+            usernames.add(dataSet.get(i).get("username"));
         }
+        this.members = members;
     }
 
     @Override
@@ -80,10 +88,12 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
         String photo = (String) photos.get(position);
         String latitude = "" + ((GeoPoint) geopoints.get(position)).getLatitude();
         String longitude = "" + ((GeoPoint) geopoints.get(position)).getLongitude();
+        String username = (String) usernames.get(position);
 
         viewHolder.getTextViewTitle().setText(title);
         viewHolder.getTextViewDescription().setText(description);
         viewHolder.getRatingBar().setRating(rating);
+        viewHolder.getTextViewUsername().setText(username);
         viewHolder.getImageView().setImageBitmap(decodeImage(photo));
         viewHolder.getTextViewTitle().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +103,10 @@ public class MarkerAdapter extends RecyclerView.Adapter<MarkerAdapter.ViewHolder
                 intent.putExtra("Description", description);
                 intent.putExtra("Rating", rating);
                 intent.putExtra("Photo", photo);
+                intent.putExtra("Members", members);
                 intent.putExtra("Latitude", latitude);
                 intent.putExtra("Longitude", longitude);
+                intent.putExtra("Source", "Group Marker");
                 v.getContext().startActivity(intent);
             }
         });

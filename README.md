@@ -2,8 +2,8 @@
 
 Project android utilisant l'API google map et caméra 
 
-[API Google map](https://developer.android.com/guide/topics/media/camera).
-[API Camera](https://developers.google.com/maps/documentation/android-sdk/overview).
+[API Google map](https://developer.android.com/guide/topics/media/camera)  
+[API Camera](https://developers.google.com/maps/documentation/android-sdk/overview)  
 
 
 **François CHIV**  

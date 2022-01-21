@@ -8,28 +8,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="32dp"
-        android:text="Welcome to Photomap" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:textSize="24dp"
         android:text="Register" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Username" />
 
     <EditText
         android:id="@+id/register_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:inputType="text" />
+        android:inputType="text"
+        android:hint="Username" />
 
     <EditText
         android:id="@+id/password"
@@ -48,6 +36,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="150dp"
         android:layout_gravity="center"
         android:onClick="createUser"
         android:text="confirm" />
@@ -55,6 +44,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="150dp"
         android:layout_gravity="center"
         android:onClick="connectionPageButton"
         android:text="connection" />

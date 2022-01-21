@@ -14,5 +14,5 @@ Github account name : francois-chiv
 StudentID : 10630  
 Github account name : davidlvn
 
-Figma du projet : https://www.figma.com/file/eVnmEnDsQRpoIecKOi9mMm/Untitled?node-id=0%3A1
+[Figma du projet](https://www.figma.com/file/eVnmEnDsQRpoIecKOi9mMm/Untitled?node-id=0%3A1)
 

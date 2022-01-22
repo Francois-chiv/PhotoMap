@@ -10,13 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="32dp"
-        android:text="Welcome to Photomap" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:textSize="24dp"
         android:text="Connection" />
 
@@ -38,6 +31,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="150dp"
         android:layout_gravity="center"
         android:onClick="connectionButton"
         android:text="connection" />
@@ -45,6 +39,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="150dp"
         android:layout_gravity="center"
         android:onClick="registerPageButton"
         android:text="Register" />

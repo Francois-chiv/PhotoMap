@@ -8,6 +8,7 @@
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/drawable/ic_baseline_my_location_24.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/drawable/ic_baseline_place_24.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_connection.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_group.xml" value="0.25" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_group_create.xml" value="0.1984375" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_group_info.xml" value="0.15729166666666666" />
@@ -15,6 +16,7 @@
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_marker.xml" value="0.1" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_marker_info.xml" value="0.22" />
+        <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/camera_layout.xml" value="0.2015625" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/fragment_dashboard.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/Takeb/AndroidStudioProjects/PhotoMap/app/src/main/res/layout/fragment_home.xml" value="0.20520833333333333" />
